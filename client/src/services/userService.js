@@ -21,12 +21,17 @@ async function storeUsers(users) {
 
 export default {
 	async saveUser(user) {
-		this.checkUsername(user.username);
+		const usernameExist = await this.usernameExist(user.username);
 
-		const users = await getUsers();
-		user.id = new Date().getTime();
-		users.push(user);
-		await storeUsers(users);
+		if(usernameExist){
+			throw new Error("Username already exist");
+		} else {
+			const users = await getUsers();
+			user.id = new Date().getTime();
+			users.push(user);
+			await storeUsers(users);
+			return user;
+		}
 	},
 
 	async getUser(userId) {
@@ -58,14 +63,16 @@ export default {
 		throw new Error("User: " + username + " does not exist.");
 	},
 
-	async checkUsername(username) {
+	async usernameExist(username) {
 		const users = await getUsers();
 
 		for (let i = 0; i < users.length; i++) {
 			const user = users[i];
 			if (user.username === username) {
-				throw new Error("Username already used");
+				return true;
 			}
 		}
+
+		return false;
 	}
 }

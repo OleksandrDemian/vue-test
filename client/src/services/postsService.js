@@ -12,6 +12,10 @@ function storePosts(posts) {
 export default {
 	savePost(post, userId) {
 		const posts = getPosts();
+		if(post.id == null){
+			post.id = new Date().getTime();
+		}
+
 		posts.push({
 			owner: userId,
 			data: post

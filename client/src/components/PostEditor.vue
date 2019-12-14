@@ -2,7 +2,7 @@
     <div id="post-editor">
         <input type="text" v-model="post.title">
         <input type="text" v-model="post.body">
-        <el-button type="primary" @click="savePost">Add</el-button>
+        <el-button type="primary" @click="onSave">Add</el-button>
         <router-link to="/posts">
             <el-button type="primary">Back</el-button>
         </router-link>
@@ -10,19 +10,16 @@
 </template>
 
 <script>
-	import {mapGetters} from "vuex";
+	import {mapGetters, mapActions} from "vuex";
 
 	export default {
 		name: "PostEditor",
 		inject: ["postsService"],
-		props: {
-			post: {
-				type: Object,
-				default() {
-					return {
-						title: "",
-						body: ""
-					}
+		data() {
+			return {
+				post: {
+					title: "",
+					body: ""
 				}
 			}
 		},
@@ -34,9 +31,15 @@
 		},
 
 		methods: {
-			savePost: function () {
-				this.postsService.savePost(this.post, this.userId);
-			}
+			onSave: function () {
+				this.savePost({
+					post: this.post,
+					userId: this.userId
+				});
+			},
+            ...mapActions([
+				"savePost"
+            ])
 		}
 	}
 </script>

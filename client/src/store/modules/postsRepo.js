@@ -20,7 +20,7 @@ export default {
 			const posts = await postsService.getUserPosts(userId);
 			commit(SET_POSTS, posts);
 		},
-		async [SAVE_POST]({ commit }, { post, userId }){
+		async [SAVE_POST]({ commit }, {post, userId}){
 			postsService.savePost(post, userId);
 			const newPosts = postsService.getUserPosts(userId);
 			commit(SET_POSTS, newPosts);

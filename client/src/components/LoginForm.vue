@@ -2,13 +2,14 @@
     <div id="loginForm">
         <h1>Login</h1>
         <p v-if="error != null">Error: {{error}}</p>
-        <form @submit="login(user)">
+        <p v-if="info != null">{{info}}</p>
+        <form @submit="onSubmit">
             <input type="text" v-model="user.username"/>
             <br/>
             <input type="password" v-model="user.password"/>
             <br/>
             <button type="submit">Login</button>
-            <button @click="saveUser">Register</button>
+            <button @click="onRegister">Register</button>
         </form>
     </div>
 </template>
@@ -17,7 +18,6 @@
 	import {mapState, mapActions} from "vuex";
 
 	export default {
-		inject: ["userService"],
 		data: () => ({
 			user: {
 				username: "",
@@ -25,20 +25,24 @@
 			}
 		}),
 		methods: {
-			saveUser: function () {
-				const {username, password} = this.user;
-				this.userService.saveUser({
-					username, password
-				});
+			onSubmit: function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				this.login(this.user);
+            },
+            onRegister: function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+				this.register(this.user);
 			},
 			...mapActions([
-				"login"
+				"login",
+                "register"
 			])
 		},
 		computed: mapState({
-			error: state => {
-				return state.userRepo.error;
-			}
+			error: state => state.userRepo.error,
+            info: state => state.userRepo.info
 		})
 	}
 </script>
