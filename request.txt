@@ -1,0 +1,10 @@
+- Repository su Bitbucket, con commit del progetto (i commit serviranno anche per valutare tempistiche e progressione dei vari step).
+- Frontend classico in Vue.js ( https://vuejs.org/ - la curva di apprendimento è davvero rapida),
+con chiamate REST (consiglio se vuoi axios https://github.com/axios/axios )
+per le chiamate puoi usare questo sito https://jsonplaceholder.typicode.com/
+- Un minimo di grafica (anche bootstrap base va bene, se vuoi noi usiamo spesso element.io https://element.eleme.io/#/en-US/component/quickstart ma libero di scegliere ciò che vuoi)
+- Visualizzazione, Creazione, Modifica e cancellazione di un post da frontend
+- Router ben definito, componenti e codice commentato se necessario
+- Facoltativo: Vuex per un'ottimizzazione delle chiamate è un plus
+- Facoltativo: l'aggiunta di una piccola chat con la gestione dei socket è un plus
+- Facoltativo: Gestione della persistenza dei dati tramite localstorage in supporto a Vuex
