@@ -14,11 +14,11 @@ Vue.config.productionTip = false;
 Vue.use(Element);
 
 new Vue({
-  router,
-  store,
-  provide: () => ({
-    postsService,
-    userService
-  }),
-  render: h => h(App)
+	router,
+	store,
+	provide: () => ({
+		postsService,
+		userService
+	}),
+	render: h => h(App)
 }).$mount('#app');

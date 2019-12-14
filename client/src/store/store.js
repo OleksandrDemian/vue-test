@@ -7,10 +7,10 @@ import postsRepo from "./modules/postsRepo";
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-    modules: {
-        userRepo,
-        postsRepo
-    }
+	modules: {
+		userRepo,
+		postsRepo
+	}
 });
 
 export default store;

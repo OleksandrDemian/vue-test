@@ -1,21 +1,29 @@
 <template>
-  <div id="app">
-    <el-menu :router="true" :default-active="activeIndex" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" background-color="#545c64">
-      <el-menu-item index="/login">Login</el-menu-item>
-      <el-menu-item index="/posts">Posts</el-menu-item>
-    </el-menu>
-    <router-view></router-view>
-  </div>
+    <div id="app">
+        <div v-if="user != null">
+            <el-button @click="logout">Logout from {{user.username}}</el-button>
+        </div>
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
-export default {
-  name: 'app',
+	import {mapState} from "vuex";
 
-  data: () => ({
-    activeIndex: "/posts"
-  })
-}
+	export default {
+		name: 'app',
+
+		computed: mapState({
+			user: state => state.userRepo.user
+		}),
+
+		methods: {
+			logout: function() {
+				this.$store.dispatch("logout");
+				this.$router.push("/");
+            }
+		}
+	}
 </script>
 
 <style>

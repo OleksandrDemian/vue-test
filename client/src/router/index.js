@@ -1,26 +1,20 @@
 import Vue from 'vue'
 import Router from "vue-router";
 
-import HelloWorldVue from "../components/HelloWorldVue";
 import Login from "../components/Login";
 import Posts from "../components/Posts";
 import PostEditor from "../components/PostEditor";
 
 Vue.use(Router);
 
-//<router-link to="/foo">Go to Foo</router-link>
-//<router-link to="/bar">Go to Bar</router-link>
-
-/* ROUTING */
 const routes = [
-    { path: '/', component: HelloWorldVue },
-    { path: '/login', component: Login },
-    { path: '/posts', component: Posts },
-    { path: '/posteditor', component: PostEditor }
+	{path: '/', component: Login},                        //set default page to Login/Welcome
+	{path: '/posts', component: Posts},                   //user's posts list
+	{path: '/posteditor/:postid?', component: PostEditor}  //post editor
 ];
 
 const router = new Router({
-    routes
+	routes
 });
 
 export default router;
