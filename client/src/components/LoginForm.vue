@@ -26,7 +26,7 @@
 		}),
 		methods: {
 			saveUser: function () {
-				const {username, password} = this;
+				const {username, password} = this.user;
 				this.userService.saveUser({
 					username, password
 				});

@@ -10,6 +10,8 @@
 </template>
 
 <script>
+	import {mapGetters} from "vuex";
+
 	export default {
 		name: "PostEditor",
 		inject: ["postsService"],
@@ -24,9 +26,16 @@
 				}
 			}
 		},
+
+        computed: {
+			...mapGetters([
+				"userId"
+			])
+		},
+
 		methods: {
 			savePost: function () {
-				this.postsService.savePost(this.post, 15);
+				this.postsService.savePost(this.post, this.userId);
 			}
 		}
 	}

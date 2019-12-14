@@ -1,34 +1,46 @@
 import userService from "../../services/userService";
 
+export const SET_USER = "setUser";
+export const SET_ERROR = "setError";
+export const CLEAR_ERRORS = "clearErrors";
+
+export const LOGIN = "login";
+export const LOGOUT ="logout";
+
 export default {
 	state: {
 		user: null,
 		error: null
 	},
 	mutations: {
-		setUser(state, user) {
+		[SET_USER](state, user) {
 			state.user = user;
 		},
-		setError(state, error) {
+		[SET_ERROR](state, error) {
 			state.error = error;
 		},
-		clearErrors(state) {
+		[CLEAR_ERRORS](state) {
 			state.error = null;
 		}
 	},
 	actions: {
-		async login({commit}, {username, password}) {
+		async [LOGIN]({commit}, {username, password}) {
 			try {
 				const user = await userService.login(username, password);
-				commit("clearErrors");
-				commit("setUser", user);
+				commit(CLEAR_ERRORS);
+				commit(SET_USER, user);
 			} catch (e) {
-				commit("setError", e.message);
+				commit(SET_ERROR, e.message);
 			}
 		},
 
-		logout({ commit }){
-			commit("setUser", null);
+		[LOGOUT]({ commit }){
+			commit(SET_USER, null);
+		}
+	},
+	getters: {
+		userId(state) {
+			return state.user.id;
 		}
 	}
 }

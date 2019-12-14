@@ -3,13 +3,29 @@
         <router-link to="/posteditor">
             <el-button type="primary">Create new post</el-button>
         </router-link>
-        <p>posts</p>
+        <p v-bind:key="post.id" v-for="post in posts">{{post.title}}</p>
     </div>
 </template>
 
 <script>
+    import {mapState, mapGetters} from "vuex";
+
 	export default {
-		name: "posts"
+		name: "posts",
+
+        computed: {
+			...mapState({
+				posts: state => state.postsRepo.posts
+			}),
+            ...mapGetters([
+				"userId"
+            ])
+        },
+
+        created() {
+			const userId = this.userId;
+			this.$store.dispatch("loadPosts", userId);
+		}
 	}
 </script>
 
