@@ -15,6 +15,9 @@ const handle = data => {
 		case "setConnected":
 			store.commit("setConnected", data._payload);
 			break;
+		case "users":
+			store.commit("setUsers", data._payload);
+			break;
 	}
 };
 

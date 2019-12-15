@@ -1,7 +1,10 @@
 <template>
     <div id="chat">
         <el-row :gutter="12">
-            <el-col :span="12" :offset="6">
+            <el-col :span="6">
+                <ActiveUsers />
+            </el-col>
+            <el-col :span="12">
                 <el-alert
                         class="margin-s"
                         v-if="messages.length < 1"
@@ -29,15 +32,21 @@
 <script>
 	import Message from "./Message";
 	import {mapState} from "vuex";
+	import ActiveUsers from "./ActiveUsers";
 
 	export default {
 		name: "Chat",
-		components: {Message},
+		components: {ActiveUsers, Message},
 
         data: function(){
             return {
 				message: ""
             }
+        },
+
+        created(){
+			this.$ws.emit("join", this.user);
+			this.$ws.emit("requestMessages");
         },
 
         methods: {
@@ -52,6 +61,7 @@
                 this.message = "";
 			},
 			closeChat: function () {
+				this.$ws.emit("leave");
                 this.$router.push("/home");
 			}
         },

@@ -5,14 +5,15 @@ const chatRoom = {
 	messages: [],
 
 	createUser(connection){
-		const user = new User(connection, this);
-		this.users.push(user);
+		this.users.push(new User(connection, this));
 	},
 
 	removeUser(user){
 		for(let i = 0; i < this.users.length; i++){
 			if(this.users[i] === user){
-				this.users.splice(i, 1);
+				this.users = this.users.splice(i, 1);
+				this.broadcast("user_left", user.data);
+				this.broadcast("users", this.getUsersData());
 				return;
 			}
 		}
@@ -29,18 +30,41 @@ const chatRoom = {
 		this.broadcast("new_message", message);
 	},
 
+	getUsersData(){
+		const data = [];
+
+		for(let i = 0; i < this.users.length; i++){
+			if(this.users[i].initialized()){
+				data.push(this.users[i].toJson());
+			}
+		}
+
+		return data;
+	},
+
 	on (e, user){
 		switch (e._event) {
 			case "message":
 				const message = e._payload;
 				message.id = new Date().getTime();
-				chatRoom.addMessage(message);//auto broadcast
+				this.addMessage(message);//auto broadcast
 				break;
 			case "join":
-				chatRoom.broadcast("user_joined", e._payload);
+				user.setData(e._payload);
+				user.active = true;
+				this.broadcast("user_joined", e._payload);
+				this.broadcast("users", this.getUsersData());
+				break;
+			case "leave":
+				user.active = false;
+				this.broadcast("user_left", user.data);
+				this.broadcast("users", this.getUsersData());
 				break;
 			case "requestMessages":
-				user.emit("messages", chatRoom.messages);
+				user.emit("messages", this.messages);
+				break;
+			case "requestUsers":
+				user.emit("users", this.getUsersData());
 				break;
 		}
 	}

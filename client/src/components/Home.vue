@@ -61,11 +61,15 @@
         * if store has no user, reroute to login page
         * */
         created() {
-            this.$ws.connect();
 			if(this.hasUser){
+				if(!this.$ws.connected()){
+					this.$ws.connect();
+				}
+
 				const userId = this.userId;
 				this.$store.dispatch("loadPosts", userId);
             } else {
+				this.$ws.disconnect();
 				this.$router.push("/");
             }
 		}

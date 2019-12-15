@@ -6,7 +6,8 @@ const PORT = "10006";
 
 const wsClient = {
 	ws: null,
-	handler: null
+	handler: null,
+	connected: false
 };
 
 const toMessage = (event, payload) => {
@@ -21,12 +22,12 @@ const onError = () => {
 };
 
 const onOpen = () => {
+	wsClient.connected = true;
 	wsClient.handler({ _event: "setConnected", _payload: true });
-	emit("join", { test: true });
-	emit("requestMessages");
 };
 
 const onClose = () => {
+	wsClient.connected = false;
 	wsClient.handler({ _event: "setConnected", _payload: false });
 };
 
@@ -54,10 +55,15 @@ const disconnect = () => {
 	wsClient.ws.disconnect();
 };
 
+const connected = () => {
+	return wsClient.connected;
+};
+
 const ws = {
 	connect,
 	emit,
-	disconnect
+	disconnect,
+	connected
 };
 
 const install = (Vue, options) => {
