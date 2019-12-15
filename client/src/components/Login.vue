@@ -3,7 +3,6 @@
         <el-row :gutter="12">
             <el-col :span="12" :offset="6">
                 <LoginForm v-if="user == null"/>
-                <Welcome v-if="user != null"/>
             </el-col>
         </el-row>
     </div>
@@ -12,10 +11,9 @@
 <script>
 	import {mapState} from "vuex";
 	import LoginForm from "./LoginForm";
-	import Welcome from "./Welcome";
 
 	export default {
-		components: {Welcome, LoginForm},
+		components: {LoginForm},
 		computed: mapState({
 			user: state => state.userRepo.user
 		})

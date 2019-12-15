@@ -44,8 +44,10 @@ export default {
 				commit(SET_USER, user);
 			} catch (e) {
 				commit(SET_ERROR, e.message);
+				throw e;
+			} finally {
+				commit(SET_LOADING, false);
 			}
-			commit(SET_LOADING, false);
 		},
 
 		async [REGISTER]({ commit }, {username, password}){
@@ -58,8 +60,10 @@ export default {
 				commit(SET_USER, user);
 			} catch (e) {
 				commit(SET_ERROR, e.message);
+				throw e;
+			} finally {
+				commit(SET_LOADING, false);
 			}
-			commit(SET_LOADING, false);
 		},
 
 		[LOGOUT]({ commit }){

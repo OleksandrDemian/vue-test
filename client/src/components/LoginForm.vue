@@ -31,12 +31,16 @@
 			onSubmit: function(e) {
 				e.preventDefault();
 				e.stopPropagation();
-				this.login(this.user);
+				this.login(this.user).then(() => {
+					this.$router.push("/posts");
+                });
             },
             onRegister: function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-				this.register(this.user);
+				this.register(this.user).then(() => {
+					this.$router.push("/posts");
+				});
 			},
 			...mapActions([
 				"login",
