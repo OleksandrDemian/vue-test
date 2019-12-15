@@ -7,8 +7,9 @@
 <script>
 	export default {
 		name: 'app',
-        mounted() {
-			this.$router.push("/");
+
+        created() {
+			this.$ws.connect();
 		}
 	}
 </script>

@@ -6,10 +6,12 @@ import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue'
 import router from "@/router";
 import store from "./store/store";
+import WebSocket from "./plugins/WebSocket";
 
 Vue.config.productionTip = false;
 
 Vue.use(Element);
+Vue.use(WebSocket, { store });
 
 new Vue({
 	router,

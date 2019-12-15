@@ -7,6 +7,12 @@
                 </router-link>
             </el-menu-item>
             <el-menu-item index="2">
+                <router-link v-if="connected === true" to="/chat">
+                    <el-button type="primary">Chat</el-button>
+                </router-link>
+                <el-button v-else disabled type="primary">Cannot reach chat server</el-button>
+            </el-menu-item>
+            <el-menu-item index="3">
                 <LogoutButton />
             </el-menu-item>
         </el-menu>
@@ -41,7 +47,8 @@
 			...mapState({
                 //reverse posts, so the newer is first
 				posts: state => state.postsRepo.posts.reverse(),
-                user: state => state.userRepo.user
+                user: state => state.userRepo.user,
+				connected: state => state.chatRepo.connected
 			}),
             ...mapGetters([
 				"userId",

@@ -1,5 +1,5 @@
 <template>
-    <el-button id="logoutBtn" type="danger" @click="onLogout">Logout from '{{user.username}}'</el-button>
+    <el-button v-if="user != null" id="logoutBtn" type="danger" @click="onLogout">Logout from '{{user.username}}'</el-button>
 </template>
 
 <script>
