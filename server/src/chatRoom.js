@@ -10,12 +10,9 @@ const chatRoom = {
 
 	removeUser(user){
 		for(let i = 0; i < this.users.length; i++){
-			if(this.users[i] === user){
-				this.users = this.users.splice(i, 1);
-				this.broadcast("user_left", user.data);
-				this.broadcast("users", this.getUsersData());
-				return;
-			}
+			this.users = this.users.filter(current => current !== user);
+			this.broadcast("user_left", user.data);
+			this.broadcast("users", this.getUsersData());
 		}
 	},
 
