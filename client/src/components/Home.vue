@@ -26,8 +26,8 @@
                         center
                         show-icon
                         type="info"
-                        :closable="false">
-                </el-alert>
+                        :closable="false"
+                />
                 <Post v-bind:key="post.id" v-for="post in posts" :post="post"></Post>
             </el-col>
         </el-row>

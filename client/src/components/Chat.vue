@@ -2,8 +2,22 @@
     <div id="chat">
         <el-row :gutter="12">
             <el-col :span="12" :offset="6">
-                <Message v-bind:key="message.id" v-for="message in messages" :message="message" />
-                <hr />
+                <el-alert
+                        class="margin-s"
+                        v-if="messages.length < 1"
+                        title="There is no messages"
+                        description="Be first to write on this chat"
+                        center
+                        show-icon
+                        type="info"
+                        :closable="false"
+                />
+
+                <div v-else>
+                    <Message v-bind:key="message.id" v-for="message in messages" :message="message" />
+                    <hr />
+                </div>
+
                 <el-input v-model="message" @keyup.enter.native="sendMessage"></el-input>
                 <el-button @click="sendMessage">Send</el-button>
                 <el-button @click="closeChat">Close chat</el-button>

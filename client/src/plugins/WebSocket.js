@@ -1,5 +1,9 @@
 import { w3cwebsocket as WsClient } from "websocket";
 
+const PROTOCOL = "echo-protocol";
+const SERVER = "ws://localhost";
+const PORT = "10006";
+
 const wsClient = {
 	ws: null,
 	handler: null
@@ -36,7 +40,7 @@ const emit = (event, payload) => {
 };
 
 const connect = () => {
-	const ws = new WsClient("ws://localhost:10006/", "echo-protocol");
+	const ws = new WsClient(SERVER + ":" + PORT, PROTOCOL);
 
 	ws.onerror = onError;
 	ws.onopen = onOpen;
