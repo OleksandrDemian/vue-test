@@ -2,7 +2,7 @@ import { w3cwebsocket as WsClient } from "websocket";
 
 const wsClient = {
 	ws: null,
-	store: null
+	handler: null
 };
 
 const toMessage = (event, payload) => {
@@ -17,25 +17,18 @@ const onError = () => {
 };
 
 const onOpen = () => {
-	wsClient.store.commit("setConnected");
+	wsClient.handler({ _event: "setConnected", _payload: true });
 	emit("join", { test: true });
 	emit("requestMessages");
 };
 
 const onClose = () => {
-	wsClient.store.commit("setConnected", false);
+	wsClient.handler({ _event: "setConnected", _payload: false });
 };
 
 const onMessage = (e) => {
 	const data = JSON.parse(e.data);
-	switch (data._event) {
-		case "new_message":
-			wsClient.store.commit("addMessage", data._payload);
-			break;
-		case "messages":
-			wsClient.store.commit("setMessages", data._payload);
-			break;
-	}
+	wsClient.handler(data);
 };
 
 const emit = (event, payload) => {
@@ -54,7 +47,7 @@ const connect = () => {
 };
 
 const disconnect = () => {
-	alert("Disconnect");
+	wsClient.ws.disconnect();
 };
 
 const ws = {
@@ -65,7 +58,7 @@ const ws = {
 
 const install = (Vue, options) => {
 	Vue.prototype.$ws = ws;
-	wsClient.store = options.store;
+	wsClient.handler = options.handler;
 };
 
 export default {

@@ -7,11 +7,14 @@ import App from './App.vue'
 import router from "@/router";
 import store from "./store/store";
 import WebSocket from "./plugins/WebSocket";
+import handler from "./handlers/wsChatHandler";
 
 Vue.config.productionTip = false;
 
 Vue.use(Element);
-Vue.use(WebSocket, { store });
+Vue.use(WebSocket, {
+	handler: handler({ store })
+});
 
 new Vue({
 	router,

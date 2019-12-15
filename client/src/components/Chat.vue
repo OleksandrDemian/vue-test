@@ -1,10 +1,14 @@
 <template>
     <div id="chat">
-        <Message v-bind:key="message.id" v-for="message in messages" :message="message" />
-        <hr />
-        <el-input v-model="message" @keyup.enter.native="sendMessage"></el-input>
-        <el-button @click="sendMessage">Send</el-button>
-        <el-button @click="closeChat">Close chat</el-button>
+        <el-row :gutter="12">
+            <el-col :span="12" :offset="6">
+                <Message v-bind:key="message.id" v-for="message in messages" :message="message" />
+                <hr />
+                <el-input v-model="message" @keyup.enter.native="sendMessage"></el-input>
+                <el-button @click="sendMessage">Send</el-button>
+                <el-button @click="closeChat">Close chat</el-button>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
