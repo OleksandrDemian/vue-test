@@ -9,17 +9,27 @@ function storePosts(posts) {
 	localStorage.setItem("posts", JSON.stringify(posts));
 }
 
+function mergePosts(posts, newEntry) {
+	for(let i = 0; i < posts.length; i++){
+		if(posts[i].id === newEntry.id){
+			posts[i] = newEntry;
+			break;
+		}
+	}
+}
+
 export default {
 	savePost(post, userId) {
 		const posts = getPosts();
-		if(post.id == null){
-			post.id = new Date().getTime();
+		const entry = Object.assign(post, { owner: userId });
+
+		if(entry.id == null){
+			entry.id = new Date().getTime();
+			posts.push(entry);
+		} else {
+			mergePosts(posts, entry);
 		}
 
-		posts.push({
-			owner: userId,
-			data: post
-		});
 		storePosts(posts);
 	},
 
@@ -30,7 +40,7 @@ export default {
 		for (let i = 0; i < posts.length; i++) {
 			const post = posts[i];
 			if (post.owner === userId) {
-				arr.push(post.data);
+				arr.push(post);
 			}
 		}
 
