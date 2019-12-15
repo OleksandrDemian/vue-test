@@ -14,7 +14,7 @@
 
         methods: {
 			onEditCancel: function () {
-                this.$router.push("/posts");
+                this.$router.push("/home");
 			}
         }
 	}

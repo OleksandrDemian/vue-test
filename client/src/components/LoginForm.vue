@@ -40,14 +40,14 @@
 				e.preventDefault();
 				e.stopPropagation();
 				this.login(this.user).then(() => {
-					this.$router.push("/posts");
+					this.$router.push("/home");
                 });
             },
             onRegister: function (e) {
                 e.preventDefault();
                 e.stopPropagation();
 				this.register(this.user).then(() => {
-					this.$router.push("/posts");
+					this.$router.push("/home");
 				});
 			},
 			...mapActions([

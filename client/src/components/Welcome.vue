@@ -1,7 +1,7 @@
 <template>
     <div id="welcome">
         <h1>Welcome {{user.username}}</h1>
-        <router-link to="/posts">
+        <router-link to="/home">
             <el-button type="primary">Go to dashboard</el-button>
         </router-link>
         <LogoutButton />

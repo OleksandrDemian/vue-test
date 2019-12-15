@@ -1,76 +1,6 @@
-const WebSocketServer = require('websocket').server;
 const http = require('http');
-
-// message:
-// userId
-// username
-// text
-// id
-
-const chatRoom = {
-	users: [],
-	messages: [],
-
-	removeUser(user){
-		for(let i = 0; i < this.users.length; i++){
-			if(this.users[i] === user){
-				this.users.splice(i, 1);
-				return;
-			}
-		}
-	},
-
-	broadcast(event, payload){
-		for(let i = 0; i < this.users.length; i++){
-			this.users[i].emit(event, payload);
-		}
-	},
-
-	addMessage(message){
-		this.messages.push(message);
-		this.broadcast("new_message", message);
-	}
-};
-
-const manageEvent = (e, user) => {
-	switch (e._event) {
-		case "message":
-			const message = e._payload;
-			message.id = new Date().getTime();
-			chatRoom.addMessage(message);//auto broadcast
-			break;
-		case "join":
-			chatRoom.broadcast("user_joined", e._payload);
-			break;
-		case "requestMessages":
-			user.emit("messages", chatRoom.messages);
-			break;
-	}
-};
-
-function User(connection) {
-	this.connection = connection;
-
-	connection.on('message', (e) => {
-		const data = JSON.parse(e.utf8Data);
-		manageEvent(data, this);
-		//connection.sendUTF(message.utf8Data);
-	});
-
-	connection.on('close', (reasonCode, description) => {
-		console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
-		chatRoom.removeUser(this);
-	});
-}
-
-User.prototype.emit = function (event, payload) {
-	const data = JSON.stringify({
-		_event: event,
-		_payload: payload
-	});
-
-	this.connection.sendUTF(data);
-};
+const chatRoom = require("./chatRoom");
+const wsServer = require("./wsServer");
 
 const server = http.createServer(function(request, response) {
 	response.writeHead(404);
@@ -81,15 +11,7 @@ server.listen(10006, function() {
 	console.log((new Date()) + ' Server is listening on port 8080');
 });
 
-wsServer = new WebSocketServer({
-	httpServer: server,
-	autoAcceptConnections: false
-});
-
-wsServer.on('request', function(request) {
-	var connection = request.accept('echo-protocol', request.origin);
-	console.log((new Date()) + ' Connection accepted.');
-
-	var user = new User(connection);
-	chatRoom.users.push(user);
+wsServer(server, function (request) {
+	const connection = request.accept('echo-protocol', request.origin);
+	chatRoom.createUser(connection);
 });

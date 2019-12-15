@@ -6,11 +6,7 @@
 
 <script>
 	export default {
-		name: 'app',
-
-        created() {
-			this.$ws.connect();
-		}
+		name: 'app'
 	}
 </script>
 

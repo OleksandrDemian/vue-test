@@ -40,7 +40,7 @@
 	import LogoutButton from "./LogoutButton";
 
 	export default {
-		name: "posts",
+		name: "Home",
 		components: {LogoutButton, Post},
 
 		computed: {
@@ -61,6 +61,7 @@
         * if store has no user, reroute to login page
         * */
         created() {
+            this.$ws.connect();
 			if(this.hasUser){
 				const userId = this.userId;
 				this.$store.dispatch("loadPosts", userId);

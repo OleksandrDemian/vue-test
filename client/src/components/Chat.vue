@@ -38,7 +38,7 @@
                 this.message = "";
 			},
 			closeChat: function () {
-                this.$router.push("/posts");
+                this.$router.push("/home");
 			}
         },
 
