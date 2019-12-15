@@ -6,7 +6,7 @@ async function getUsers() {
 				resolve(JSON.parse(users));
 
 			resolve([]);
-		}, 250);
+		}, 500);
 	});
 }
 
@@ -15,7 +15,7 @@ async function storeUsers(users) {
 		setTimeout(() => {
 			localStorage.setItem("users", JSON.stringify(users));
 			resolve();
-		}, 250);
+		}, 500);
 	});
 }
 

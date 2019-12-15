@@ -1,7 +1,11 @@
 <template>
     <div id="login">
-        <LoginForm v-if="user == null"/>
-        <Welcome v-if="user != null"/>
+        <el-row :gutter="12">
+            <el-col :span="12" :offset="6">
+                <LoginForm v-if="user == null"/>
+                <Welcome v-if="user != null"/>
+            </el-col>
+        </el-row>
     </div>
 </template>
 

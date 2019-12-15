@@ -8,12 +8,14 @@ export const CLEAR_MESSAGES = "clearMessages";
 export const LOGIN = "login";
 export const REGISTER = "register";
 export const LOGOUT ="logout";
+export const SET_LOADING ="setLoading";
 
 export default {
 	state: {
 		user: null,
 		error: null,
-		info: null
+		info: null,
+		loading: false
 	},
 	mutations: {
 		[SET_USER](state, user) {
@@ -25,6 +27,9 @@ export default {
 		[SET_INFO](state, info) {
 			state.info = info;
 		},
+		[SET_LOADING](state, enable = true) {
+			state.loading = enable;
+		},
 		[CLEAR_MESSAGES](state) {
 			state.error = null;
 			state.info = null;
@@ -32,6 +37,7 @@ export default {
 	},
 	actions: {
 		async [LOGIN]({ commit }, {username, password}) {
+			commit(SET_LOADING);
 			try {
 				const user = await userService.login(username, password);
 				commit(CLEAR_MESSAGES);
@@ -39,9 +45,11 @@ export default {
 			} catch (e) {
 				commit(SET_ERROR, e.message);
 			}
+			commit(SET_LOADING, false);
 		},
 
 		async [REGISTER]({ commit }, {username, password}){
+			commit(SET_LOADING);
 			try {
 				const user = await userService.saveUser({
 					username, password
@@ -51,6 +59,7 @@ export default {
 			} catch (e) {
 				commit(SET_ERROR, e.message);
 			}
+			commit(SET_LOADING, false);
 		},
 
 		[LOGOUT]({ commit }){
