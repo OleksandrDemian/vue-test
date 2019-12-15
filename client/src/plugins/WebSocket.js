@@ -19,7 +19,7 @@ const onError = () => {
 const onOpen = () => {
 	wsClient.store.commit("setConnected");
 	emit("join", { test: true });
-	emit("message", { user: "Ciaone", text: "Mega ciao text" });
+	emit("requestMessages");
 };
 
 const onClose = () => {
@@ -31,6 +31,9 @@ const onMessage = (e) => {
 	switch (data._event) {
 		case "new_message":
 			wsClient.store.commit("addMessage", data._payload);
+			break;
+		case "messages":
+			wsClient.store.commit("setMessages", data._payload);
 			break;
 	}
 };

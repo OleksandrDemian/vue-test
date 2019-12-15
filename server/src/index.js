@@ -1,6 +1,12 @@
 const WebSocketServer = require('websocket').server;
 const http = require('http');
 
+// message:
+// userId
+// username
+// text
+// id
+
 const chatRoom = {
 	users: [],
 	messages: [],
@@ -31,14 +37,13 @@ const manageEvent = (e, user) => {
 		case "message":
 			const message = e._payload;
 			message.id = new Date().getTime();
-			chatRoom.addMessage(message);
+			chatRoom.addMessage(message);//auto broadcast
 			break;
 		case "join":
-			user.emit("join", { a: true });
+			chatRoom.broadcast("user_joined", e._payload);
 			break;
 		case "requestMessages":
-			break;
-		case "requestUsers":
+			user.emit("messages", chatRoom.messages);
 			break;
 	}
 };
