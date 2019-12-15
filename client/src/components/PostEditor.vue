@@ -1,10 +1,10 @@
 <template>
     <el-form label-position="left">
         <el-form-item label="Title">
-            <el-input type="text" v-model="post.title" />
+            <el-input @keyup.enter.native="onSave" type="text" v-model="post.title" />
         </el-form-item>
         <el-form-item label="Body">
-            <el-input type="text" v-model="post.body" />
+            <el-input @keyup.enter.native="onSave" type="text" v-model="post.body" />
         </el-form-item>
 
         <el-button type="primary" @click="onSave">{{ insert ? "Save" : "Update" }}</el-button>

@@ -6,8 +6,8 @@
                     <el-button type="primary">Create new post</el-button>
                 </router-link>
             </el-menu-item>
-            <el-menu-item index="3">
-                <el-button @click="logout">Logout from {{user.username}}</el-button>
+            <el-menu-item index="2">
+                <el-button @click="logout">Logout from '{{user.username}}'</el-button>
             </el-menu-item>
         </el-menu>
         <el-row :gutter="12">
