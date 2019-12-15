@@ -7,7 +7,7 @@
                 </router-link>
             </el-menu-item>
             <el-menu-item index="2">
-                <el-button @click="logout">Logout from '{{user.username}}'</el-button>
+                <LogoutButton />
             </el-menu-item>
         </el-menu>
         <el-row :gutter="12">
@@ -31,10 +31,12 @@
 <script>
     import {mapState, mapGetters} from "vuex";
 	import Post from "./Post";
+	import LogoutButton from "./LogoutButton";
 
 	export default {
 		name: "posts",
-		components: {Post},
+		components: {LogoutButton, Post},
+
 		computed: {
 			...mapState({
                 //reverse posts, so the newer is first
@@ -42,20 +44,22 @@
                 user: state => state.userRepo.user
 			}),
             ...mapGetters([
-				"userId"
+				"userId",
+                "hasUser"
             ]),
         },
 
-        methods: {
-			logout: function() {
-				this.$store.dispatch("logout");
-				this.$router.push("/");
-			}
-        },
-
+        /*
+        * check user after view creation.
+        * if store has no user, reroute to login page
+        * */
         created() {
-			const userId = this.userId;
-			this.$store.dispatch("loadPosts", userId);
+			if(this.hasUser){
+				const userId = this.userId;
+				this.$store.dispatch("loadPosts", userId);
+            } else {
+				this.$router.push("/");
+            }
 		}
 	}
 </script>

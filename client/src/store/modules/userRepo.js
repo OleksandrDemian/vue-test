@@ -10,6 +10,21 @@ export const REGISTER = "register";
 export const LOGOUT ="logout";
 export const SET_LOADING ="setLoading";
 
+const LAST_STORED_USER_ID = "last_stored_user_id";
+
+function lastUser() {
+	const storedUserId = localStorage.getItem(LAST_STORED_USER_ID);
+	if(storedUserId == null){
+		return null;
+	} else {
+		return Number(storedUserId);
+	}
+}
+
+function storeUserId(userId) {
+	localStorage.setItem(LAST_STORED_USER_ID, userId);
+}
+
 export default {
 	state: {
 		user: null,
@@ -42,6 +57,7 @@ export default {
 				const user = await userService.login(username, password);
 				commit(CLEAR_MESSAGES);
 				commit(SET_USER, user);
+				storeUserId(user.id);
 			} catch (e) {
 				commit(SET_ERROR, e.message);
 				throw e;
@@ -58,6 +74,7 @@ export default {
 				});
 				commit(CLEAR_MESSAGES);
 				commit(SET_USER, user);
+				storeUserId(user.id);
 			} catch (e) {
 				commit(SET_ERROR, e.message);
 				throw e;
@@ -66,13 +83,32 @@ export default {
 			}
 		},
 
+		async loadLastUser({ commit }){
+			try {
+				const userId = lastUser();
+				if(userId != null && !isNaN(userId)){
+					commit(SET_LOADING);
+					const user = await userService.getUser(userId);
+					commit(SET_USER, user);
+				}
+			} catch (e) {
+				throw e;
+			} finally {
+				commit(SET_LOADING, false);
+			}
+		},
+
 		[LOGOUT]({ commit }){
 			commit(SET_USER, null);
+			storeUserId(null);
 		}
 	},
 	getters: {
 		userId(state) {
 			return state.user.id;
+		},
+		hasUser(state){
+			return state.user != null;
 		}
 	}
 }

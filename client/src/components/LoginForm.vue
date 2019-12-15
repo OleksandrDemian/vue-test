@@ -1,7 +1,15 @@
 <template>
     <div id="loginForm">
         <h1>Login</h1>
-        <p v-if="error != null">Error: {{error}}</p>
+        <el-alert
+                class="margin-s"
+                v-if="error != null"
+                title="Error"
+                :description="error"
+                right
+                show-icon
+                type="error"
+        />
         <p v-if="info != null">{{info}}</p>
         <el-form @submit="onSubmit">
             <el-form-item label="Username">
