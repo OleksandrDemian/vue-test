@@ -12,6 +12,16 @@
         </el-menu>
         <el-row :gutter="12">
             <el-col :span="12" :offset="6">
+                <el-alert
+                        class="margin-s"
+                        v-if="posts.length < 1"
+                        title="There is no posts"
+                        description="Click 'Create new post' to add someone"
+                        center
+                        show-icon
+                        type="info"
+                        :closable="false">
+                </el-alert>
                 <Post v-bind:key="post.id" v-for="post in posts" :post="post"></Post>
             </el-col>
         </el-row>

@@ -1,5 +1,5 @@
 <template>
-    <div id="post">
+    <div id="post" class="margin-s">
         <el-card>
             <div v-if="edit === false">
                 <p>{{post.title}}</p>
@@ -15,6 +15,9 @@
 <script>
 	import PostEditor from "./PostEditor";
 	import { mapGetters, mapActions } from "vuex";
+
+	const DELETE_CONFIRM_MSG = "Are you sure you want to delete this post?";
+
 	export default {
 		name: "Post",
 		components: {PostEditor},
@@ -44,10 +47,16 @@
                 this.edit = false;
 			},
 			onDeletePost: function () {
-                this.deletePost({
-                    postId: this.post.id,
-                    userId: this.userId
-                });
+				this.$confirm(DELETE_CONFIRM_MSG, "Warning", {
+					confirmButtonText: 'Yes',
+					cancelButtonText: 'No',
+					type: 'warning'
+                }).then(() => {
+					this.deletePost({
+						postId: this.post.id,
+						userId: this.userId
+					});
+				});
 			},
             ...mapActions([
                 "deletePost"
@@ -57,7 +66,5 @@
 </script>
 
 <style scoped>
-    #post {
-        margin: 5vh;
-    }
+
 </style>

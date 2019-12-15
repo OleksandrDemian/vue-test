@@ -11,5 +11,7 @@
 </script>
 
 <style>
-
+    .margin-s {
+        margin: 1vh;
+    }
 </style>
